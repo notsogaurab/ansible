@@ -1,0 +1,32 @@
+- name: Configure Web Server
+  become: true
+  vars:
+    dir1: "website1"
+    dir2: "website2"
+  block:
+    - name: Perform a system update
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Create directories for website1 and website2
+      file:
+        path: "/var/www/html/{{ item }}"
+        state: directory
+      loop:
+        - "{{ dir1 }}"
+        - "{{ dir2 }}"
+
+    - name: Copy website files to the directories
+      copy:
+        src: "{{ item.src }}"
+        dest: "/var/www/html/{{ item.dest }}"
+      loop:
+        - { src: "websites/website1/index.html", dest: "{{ dir1 }}/" }
+        - { src: "websites/website2/index.html", dest: "{{ dir2 }}/" }
+
+    - name: Ensure Nginx is enabled and running
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes

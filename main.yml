@@ -1,0 +1,28 @@
+- hosts: web
+  become: true
+  tasks:
+    - import_tasks: tasks/nginx.yml
+  handlers:
+    - import_tasks: handlers/nginx.yml
+
+- hosts: web
+  become: true
+  tasks:
+    - import_tasks: tasks/copy-website.yml
+
+- hosts: web
+  become: true
+  tasks:
+    - import_tasks: tasks/ssl.yml
+  handlers:
+    - import_tasks: handlers/nginx.yml
+
+- hosts: web
+  become: true
+  tasks:
+    - import_tasks: tasks/new_user.yml
+
+- hosts: web
+  become: true
+  tasks:
+    - import_tasks: tasks/system_update.yml

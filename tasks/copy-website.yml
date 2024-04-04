@@ -1,0 +1,9 @@
+- name: Copy index.html for website1
+  copy:
+    src: "websites/website1/index.html"
+    dest: '/var/www/html/website1/index.html'
+
+- name: Copy index.html for website2
+  copy:
+    src: "websites/website2/index.html"
+    dest: '/var/www/html/website2/index.html'
